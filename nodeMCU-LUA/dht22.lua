@@ -24,7 +24,7 @@ do
       local c = 255
       while c > 0 and val(pin) ~= v do c = c - 1 end
       return c
-    end
+    end 
     -- NB: we preallocate incoming data buffer
     --     or precise timing in reader gets broken
     local b = { 0, 0, 0, 0, 0 }
