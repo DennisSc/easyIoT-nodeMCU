@@ -1,5 +1,6 @@
 const String ESP8266_IP_ADDRESS = "192.168.0.100";
 const String NODE_ADDRESS = "N6S0";
+
 /*
   This code is running one time when program is enabled
 */
