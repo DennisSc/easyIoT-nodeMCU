@@ -134,4 +134,4 @@ srv:listen(43333,function(conn)
 
 print ("easyIoT dimmer/switch/temperature sensor for nodeMCU")
 print ("Based on QuinLED_ESP8266_V0.4")
-print ("Version 0.5 (c) 2015 by DennisSc")
+print ("Version 0.6 (c) 2015 by DennisSc")
