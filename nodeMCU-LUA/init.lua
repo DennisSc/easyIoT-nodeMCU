@@ -8,13 +8,21 @@
 --
 
 
-pwm.setup(3, 1000, 000)
-pwm.start(3)
+print("Initializing...")
+print("reading last dimmer value from memory..")
+file.open("value.txt","r")
+LED1_current = tonumber(file.readline())
+file.close()
+print("read "..LED1_current.."\r\n")
 
-LED1_current=000
-LED1_target=000
 
 SWITCH1_state = 0
+LED1_target=000
+
+
+pwm.setup(3, 1000, LED1_current)
+pwm.start(3)
+
 
 Fadetime1=1000
 
@@ -57,20 +65,27 @@ srv:listen(43333,function(conn)
      elseif string.find(payload,"SWITCH1") then
      SWITCH1_state=tonumber(string.sub(payload, 9) )
      print("Received SWITCH1 target Value: "..SWITCH1_state)
-     if SWITCH1_state == 1 then
+        if SWITCH1_state == 1 then
           pwm.setduty(3, 1023)
           LED1_current = 1023
-      elseif SWITCH1_state == 0 then
+	    elseif SWITCH1_state == 0 then
           pwm.setduty(3, 0)
           LED1_current = 0
         end
+	 print("saving dimmer value to memory..")
+	 file.open("value.txt","w")
+	 file.writeline(LED1_current)
+	 file.close()
      
 
      
     elseif string.find(payload,"LED1") then
      LED1_target=tonumber(string.sub(payload, 13) )
      print("Received LED1 Target Value: "..LED1_target)
-
+	 file.open("value.txt","w")
+	 file.writeline(LED1_target)
+	 file.close()
+     
      Stepcounter1=(LED1_target)-(LED1_current)
      
      if (Stepcounter1) < 0 then
@@ -119,5 +134,4 @@ srv:listen(43333,function(conn)
 
 print ("easyIoT dimmer/switch/temperature sensor for nodeMCU")
 print ("Based on QuinLED_ESP8266_V0.4")
-print ("Version 0.5")
-print ("(c) 2015 by Dennis Schulze")
+print ("Version 0.5 (c) 2015 by DennisSc")
